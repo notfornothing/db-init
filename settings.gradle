@@ -1,0 +1,5 @@
+rootProject.name = 'dbInit'
+include 'db-init'
+include 'oldmoon-frame-api'
+include 'oldmoon-app-husoul'
+

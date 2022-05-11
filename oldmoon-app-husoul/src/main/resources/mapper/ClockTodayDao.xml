@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.oldmoon.husoul.model.dao.ClockTodayDao">
+
+    <resultMap type="top.oldmoon.husoul.model.entity.ClockToday" id="ClockTodayMap">
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="userAccount" column="user_account" jdbcType="VARCHAR"/>
+        <result property="clockInfo" column="clock_info" jdbcType="VARCHAR"/>
+        <result property="clockDate" column="clock_date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ClockTodayMap">
+        select
+          user_id, user_account, clock_info, clock_date
+        from clock_today
+        where user_id = #{userId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ClockTodayMap">
+        select
+          user_id, user_account, clock_info, clock_date
+        from clock_today
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="userAccount != null and userAccount != ''">
+                and user_account = #{userAccount}
+            </if>
+            <if test="clockInfo != null and clockInfo != ''">
+                and clock_info = #{clockInfo}
+            </if>
+            <if test="clockDate != null">
+                and clock_date = #{clockDate}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from clock_today
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="userAccount != null and userAccount != ''">
+                and user_account = #{userAccount}
+            </if>
+            <if test="clockInfo != null and clockInfo != ''">
+                and clock_info = #{clockInfo}
+            </if>
+            <if test="clockDate != null">
+                and clock_date = #{clockDate}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
+        insert into clock_today(user_account, clock_info, clock_date)
+        values (#{userAccount}, #{clockInfo}, #{clockDate})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="userId" useGeneratedKeys="true">
+        insert into clock_today(user_account, clock_info, clock_date)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.userAccount}, #{entity.clockInfo}, #{entity.clockDate})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="userId" useGeneratedKeys="true">
+        insert into clock_today(user_account, clock_info, clock_date)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userAccount}, #{entity.clockInfo}, #{entity.clockDate})
+        </foreach>
+        on duplicate key update
+        user_account = values(user_account),
+        clock_info = values(clock_info),
+        clock_date = values(clock_date)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update clock_today
+        <set>
+            <if test="userAccount != null and userAccount != ''">
+                user_account = #{userAccount},
+            </if>
+            <if test="clockInfo != null and clockInfo != ''">
+                clock_info = #{clockInfo},
+            </if>
+            <if test="clockDate != null">
+                clock_date = #{clockDate},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from clock_today where user_id = #{userId}
+    </delete>
+
+</mapper>
+

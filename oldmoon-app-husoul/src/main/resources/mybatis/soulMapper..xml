@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.oldmoon.husoul.dao.SoulDao">
+
+    <insert id="saveSoul">
+        INSERT INTO  soul (id, soul_name, soul_time, soul_type, soul_author, sort, status, read_num) VALUES
+        (#{soul.id}, #{soul.soul_name}, DATE_FORMAT(#{soul.soul_time}, '%Y-%m-%d %H:%i:%s'), #{soul.soul_type}, #{soul.soul_author}, #{soul.sort}, #{soul.status}, #{soul.read_num})
+    </insert>
+
+    <update id="updateSoulById">
+        UPDATE soul
+        <set>
+            <if test="soul.soul_name != null and soul.soul_name != ''">
+                soul_name = #{soul.soul_name},
+            </if>
+            <if test="soul.soul_type != null and soul.soul_type != ''">
+                soul_type = #{soul.soul_type},
+            </if>
+            <if test="soul.sort != null and soul.sort != ''">
+                sort = #{soul.sort},
+            </if>
+            <if test="soul.read_num != null and soul.read_num != ''">
+                read_num = read_num + #{soul.read_num},
+            </if>
+            <if test="soul.status != null and soul.status != ''">
+                status = #{soul.status},
+            </if>
+            <if test="soul.update_time != null">
+                update_time = DATE_FORMAT(#{soul.update_time}, '%Y-%m-%d %H:%i:%s')
+            </if>
+        </set>
+        WHERE id = #{soul.id}
+    </update>
+
+    <insert id="saveSoulType">
+        INSERT INTO  soul_type (id, type_name, type_no, sort) VALUES
+        (#{soulType.id}, #{soulType.type_name}, #{soulType.type_no}, #{soulType.sort})
+    </insert>
+
+    <update id="updateSoulTypeById">
+        UPDATE soul_type SET type_name = #{soulType.type_name},
+                             type_no = #{soulType.type_no},
+                             sort = #{soulType.sort}
+        WHERE id = #{soulType.id}
+    </update>
+
+    <select id="getTypes" resultType="top.oldmoon.husoul.model.SoulType">
+        SELECT
+            st.id,
+            st.type_no,
+            st.type_name,
+            st.sort,
+            count(s.id) AS "soul_num"
+        FROM soul_type st
+        LEFT JOIN soul s ON st.type_no = s.soul_type
+        WHERE 1 = 1
+        <if test="type_no != null and type_no != ''">
+            AND st.type_no = #{type_no}
+        </if>
+        GROUP BY
+            st.id,
+            st.type_no,
+            st.type_name,
+            st.sort
+        ORDER BY st.sort
+    </select>
+
+    <select id="getSouls" resultType="top.oldmoon.husoul.model.Soul">
+        SELECT
+            s.id,
+            s.soul_name,
+            s.soul_type,
+            s.soul_author,
+            st.type_name,
+            DATE_FORMAT( s.soul_time, '%Y-%m-%d %H:%i:%s' ) AS "soul_time",
+            DATE_FORMAT( s.update_time, '%Y-%m-%d %H:%i:%s' ) AS "update_time",
+            s.status,
+            s.sort,
+            s.read_num
+        FROM soul s
+        LEFT JOIN soul_type st ON s.soul_type = st.type_no
+        WHERE
+            1 = 1
+        <if test="soul_name != null and soul_name != ''">
+            AND s.soul_name LIKE concat( '%', #{soul_name}, '%' )
+        </if>
+        <if test="soul_type != null and soul_type != ''">
+            AND s.soul_type = #{soul_type}
+        </if>
+        <if test="status != null and status != ''">
+            AND s.status = #{status}
+        </if>
+        ORDER BY s.sort
+    </select>
+
+    <select id="getSoulInfo" resultType="top.oldmoon.husoul.model.Soul">
+        SELECT
+            s.id,
+            s.soul_name,
+            s.soul_type,
+            st.type_name,
+            DATE_FORMAT( s.soul_time, '%Y-%m-%d %H:%i:%s' ) AS "soul_time",
+            s.sort
+        FROM soul s
+        LEFT JOIN soul_type st ON s.soul_type = st.type_no
+        WHERE s.id = #{id}
+    </select>
+    <select id="getSoulNumByNameAndType" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM soul s
+        WHERE s.soul_name = #{soul.soul_name}
+        AND s.soul_type = #{soul.soul_type}
+    </select>
+    <select id="getSoulTypeByNameAndType" resultType="java.lang.Integer">
+
+    </select>
+</mapper>
