@@ -90,7 +90,7 @@ public class DbInitActuator implements InitInterface {
 
     /**
      * 处理sql脚本，获取其中有效的sql
-     * <p>并返回有效sql集合</p>
+     * <p>并返回有效sql集合
      *
      * @param file sql脚本文件对象
      * @return List<String> 有效的sql集合

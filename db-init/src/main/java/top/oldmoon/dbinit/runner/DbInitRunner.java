@@ -1,6 +1,5 @@
 package top.oldmoon.dbinit.runner;
 
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -39,19 +38,25 @@ public class DbInitRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        // 获取spring容器中全部数据源
         Map<String, DataSource> dataSourceMap = context.getBeansOfType(DataSource.class);
         Map<String, Boolean> dbs = tidyConfig.getDbs();
         dataSourceMap.forEach((key, dataSource) -> {
+            // 开启上下文
             DbInitContext dbInitContext = DbInitContextManager.begin();
             dbInitContext.setDbName(key);
+            // 判断是否确认开启数据库初始化
             if (dbs.get(key) != null && dbs.get(key)) {
                 log.info("-=-=-=-=初始化数据库{}开始=-=-=-=-", key);
+                // 创建初始化执行器
                 DbInitActuator actuator = new DbInitActuator(key, dataSource);
                 actuator.init();
                 log.info("-=-=-=-=初始化数据库{}完成=-=-=-=-", key);
             }
+            // 关闭上下文
             DbInitContextManager.end();
-            System.out.println(JSON.toJSONString(dbInitContext));
+            // 打印验证上下文记录情况
+            // System.out.println(JSON.toJSONString(dbInitContext));
         });
         autoClear.clearAllByName(AutoClear.beanNameList);
     }
