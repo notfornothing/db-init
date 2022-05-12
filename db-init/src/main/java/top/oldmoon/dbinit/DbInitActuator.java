@@ -3,6 +3,8 @@ package top.oldmoon.dbinit;
 import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import reactor.util.annotation.NonNull;
+import top.oldmoon.dbinit.log.entity.DbInitContext;
+import top.oldmoon.dbinit.log.manager.DbInitContextManager;
 import top.oldmoon.file.FileUtilOm;
 
 import javax.sql.DataSource;
@@ -66,11 +68,14 @@ public class DbInitActuator implements InitInterface {
     private void coverBySqlFile(Connection conn, Statement statement) throws SQLException, IOException {
         File[] files = FileUtilOm.getRootFiles(name);
         log.info("-=-=-=-=-=-=-=-=覆盖数据开始=-=-=-=-=-=-=-=-=-");
+        DbInitContext context = DbInitContextManager.getContext();
+        context.setFileName(name);
         for (File file : files) {
             String name = file.getName();
             if (name.endsWith(".sql")) {
                 try {
                     List<String> sqlList = getEffectiveSql(file);
+                    context.setSqlNumber(sqlList.size());
                     executeSql(sqlList, statement);
                 } catch (SQLException | IOException e) {
                     log.error("{}执行出错！", name);
@@ -136,10 +141,5 @@ public class DbInitActuator implements InitInterface {
     }
 
     private void updateSql(Connection conn, Statement statement) {
-    }
-
-    @Override
-    public void close() {
-
     }
 }

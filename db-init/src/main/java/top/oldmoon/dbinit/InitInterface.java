@@ -14,12 +14,4 @@ public interface InitInterface {
      * @date 2022/5/10 16:26
      */
     void init();
-
-    /**
-     * 结束前调用，关闭流
-     *
-     * @author hupg
-     * @date 2022/5/10 16:46
-     */
-    void close();
 }
