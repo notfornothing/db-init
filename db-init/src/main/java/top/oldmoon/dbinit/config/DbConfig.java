@@ -37,5 +37,9 @@ public class DbConfig {
     /**
      * 数据库连接类全类名
      */
-    private String className;
+    private String driverClassName;
+    /**
+     * 是否启用
+     */
+    private Boolean enable = false;
 }

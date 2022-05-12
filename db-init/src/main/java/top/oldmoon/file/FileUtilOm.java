@@ -27,9 +27,11 @@ public class FileUtilOm {
 
 
     /**
+     * 根据文件路径加载所有文件名
+     *
      * @param path 文件路径
      * @return 文件名列表
-     * @description 根据文件路径加载所有文件名
+     * @author hupg
      */
     public static List<String> getFileNameByPath(String path) {
         List<String> files = new ArrayList<String>();
@@ -51,9 +53,11 @@ public class FileUtilOm {
     }
 
     /**
+     * 根据文件路径加载所有一级子文件（包括文件夹）
+     *
      * @param path 文件路径
      * @return 文件列表
-     * @description 根据文件路径加载所有一级子文件（包括文件夹）
+     * @author hupg
      */
     public static File[] loadFilesByPath(String path) {
         File file = new File(path);
@@ -61,9 +65,11 @@ public class FileUtilOm {
     }
 
     /**
+     * 根据文件路径加载单个文件
+     *
      * @param path 文件路径
      * @return 文件对象
-     * @description 根据文件路径加载单个文件
+     * @author hupg
      */
     public static File loadFileInfoByFile(String path) {
         return new File(path);
@@ -84,10 +90,12 @@ public class FileUtilOm {
 
 
     /**
+     * 根据入参，保存文件
+     *
      * @param filePath 文件路径
      * @param fileName 文件名
      * @param fileInfo 文件内容
-     * @description 根据入参，保存文件
+     * @author hupg
      */
     public static void saveFile(String filePath, String fileName, String fileInfo) {
         File file = new File(filePath + fileName);
