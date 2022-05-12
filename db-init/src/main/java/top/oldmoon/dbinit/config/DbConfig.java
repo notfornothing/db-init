@@ -11,13 +11,13 @@ import lombok.Data;
 @Data
 public class DbConfig {
     /**
-     * 数据库IP
+     * 数据库类型
      */
-    private String ip;
+    private String dbType = "mysql";
     /**
-     * 数据库端口
+     * 是否启用
      */
-    private String port;
+    private Boolean enable = false;
     /**
      * 数据库-名称
      */
@@ -39,7 +39,7 @@ public class DbConfig {
      */
     private String driverClassName;
     /**
-     * 是否启用
+     * 脚本文件夹
      */
-    private Boolean enable = false;
+    private String fileDir = "mysql";
 }
