@@ -5,9 +5,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +16,15 @@ import java.util.List;
  * @author hupg
  * @date 2022/5/12 14:19
  */
-@Component
 @Slf4j
 public class AutoClear {
-    @Resource
-    private ApplicationContext context;
+
+    private final ApplicationContext context;
+
+    public AutoClear(ApplicationContext context) {
+        this.context = context;
+    }
+
     /**
      * 需要清理的bean名称集合
      */

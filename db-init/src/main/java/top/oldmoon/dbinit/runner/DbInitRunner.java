@@ -30,16 +30,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @date 2022/5/10 16:36
  */
 @Order(BigDecimal.ROUND_HALF_EVEN)
-@EnableConfigurationProperties({TidyConfig.class})
-@Component
 @Slf4j
 public class DbInitRunner implements ApplicationRunner {
-    @Resource
-    ApplicationContext context;
-    @Resource
-    AutoClear autoClear;
-    @Resource
-    private TidyConfig tidyConfig;
+    private final ApplicationContext context;
+    private final AutoClear autoClear;
+    private final TidyConfig tidyConfig;
+
+    public DbInitRunner(ApplicationContext context, AutoClear autoClear, TidyConfig tidyConfig) {
+        this.context = context;
+        this.autoClear = autoClear;
+        this.tidyConfig = tidyConfig;
+    }
 
     private Map<String, Boolean> dbs;
     private Map<String, String> dbType;
@@ -54,9 +55,6 @@ public class DbInitRunner implements ApplicationRunner {
 
         // 获取spring容器中全部数据源
         Map<String, DataSource> dataSourceMap = context.getBeansOfType(DataSource.class);
-
-        Map<String, Boolean> dbs = tidyConfig.getDbs();
-        Map<String, String> dbType = tidyConfig.getDbType();
 
         DbActuatorFactory factory = new DbActuatorFactory();
         dataSourceMap.forEach((key, dataSource) -> {

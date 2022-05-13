@@ -1,0 +1,9 @@
+jar.enabled=true
+
+version '0.0.1'
+
+group 'top.oldmoon'
+
+dependencies {
+    compile project(":db-init")
+}

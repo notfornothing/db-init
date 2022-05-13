@@ -1,4 +1,5 @@
 rootProject.name = 'dbInit'
 include 'db-init'
-include 'oldmoon-app-husoul'
+include 'db-test'
+include 'db-init-spring-boot-starter'
 
