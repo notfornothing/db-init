@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import top.oldmoon.annotation.EnableDbInit;
 
 @SpringBootApplication
-@ComponentScan({"top.oldmoon.dbinit","top.oldmoon.dbtest"})
+@ComponentScan({"top.oldmoon"})
 @EnableDbInit
 public class DbInitServerApplication {
 
