@@ -5,10 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import top.oldmoon.dbinit.actuator.DefaultActuator;
 import top.oldmoon.dbinit.actuator.factory.DbActuatorFactory;
@@ -17,7 +15,6 @@ import top.oldmoon.dbinit.config.TidyConfig;
 import top.oldmoon.dbinit.log.entity.DbInitContext;
 import top.oldmoon.dbinit.log.manager.DbInitContextManager;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.util.Map;
