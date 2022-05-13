@@ -29,7 +29,7 @@ public class DbInitContextManager {
      * @author hupg
      * @date 2022/5/12 15:51
      */
-    public static DbInitContext begin() {
+    public static DbInitContext begin(String dbName) {
         DbInitContext context = getContext();
         if (context == null) {
             context = new DbInitContext();
@@ -37,6 +37,7 @@ public class DbInitContextManager {
             context.setBeginTime(LocalDateTime.now());
             THREAD_LOCAL.set(context);
         }
+        context.setDbName(dbName);
         return context;
     }
 

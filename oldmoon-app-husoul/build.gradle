@@ -5,9 +5,9 @@ plugins {
 version '0.0.1'
 
 group 'top.oldmoon'
-repositories {
-    mavenLocal()// 优先从本地依赖库获取依赖，若获取不到，再到后续仓库获取依赖
-}
+//repositories {
+//    mavenLocal()// 优先从本地依赖库获取依赖，若获取不到，再到后续仓库获取依赖
+//}
 
 jar {
     manifest {
@@ -16,19 +16,12 @@ jar {
 }
 
 dependencies {
-    compile project(":oldmoon-frame-api")
     compile project(":db-init")
 
-    compile 'org.slf4j:jcl-over-slf4j',
-            'ch.qos.logback:logback-classic',
-//            'com.fasterxml.jackson.core:jackson-core',
-//            'com.fasterxml.jackson.core:jackson-annotations',
-//            'com.fasterxml.jackson.core:jackson-databind',
+    compile 'ch.qos.logback:logback-classic',
             'mysql:mysql-connector-java',
-            "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}",// 引入常量使用双引号，若使用单引号会报错
+            'com.oracle:ojdbc14:10.2.0.4.0',
             "com.alibaba:druid:${druidVersion}",
-            'org.springframework.boot:spring-boot-starter-aop',
-            'org.apache.poi:poi:3.17',
-            'org.apache.poi:poi-ooxml:3.17'
-    annotationProcessor 'org.projectlombok:lombok'
+            "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}",// 引入常量使用双引号，若使用单引号会报错
+            'org.springframework.boot:spring-boot-starter-aop'
 }
