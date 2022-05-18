@@ -13,7 +13,7 @@ import java.util.List;
  * 自动清理容器对象
  * TODO 待验证是否有效，代码没问题，不确定是不是真的销毁且不再占用内存
  *
- * @author hupg
+ * @author DDD
  * @date 2022/5/12 14:19
  */
 @Slf4j
@@ -41,7 +41,7 @@ public class AutoClear {
      * 根据传入的bean名称清理Spring容器中的实例
      *
      * @param beanName bean名称
-     * @author hupg
+     * @author DDD
      * @date 2022/5/12 17:33
      */
     public void clearByName(String beanName) {
@@ -60,7 +60,7 @@ public class AutoClear {
      * 根据传入的bean名称集合，全部清理Spring容器中的实例
      *
      * @param beanNameList bean名称集合
-     * @author hupg
+     * @author DDD
      * @date 2022/5/12 17:33
      */
     public void clearAllByName(List<String> beanNameList) {

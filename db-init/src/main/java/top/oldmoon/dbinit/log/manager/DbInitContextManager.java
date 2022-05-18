@@ -8,7 +8,7 @@ import java.time.ZoneOffset;
 /**
  * 上下文管理者
  *
- * @author hupg
+ * @author DDD
  * @date 2022/5/12 15:45
  */
 public class DbInitContextManager {
@@ -26,7 +26,7 @@ public class DbInitContextManager {
      * <p>if you used it, don't forget use {@link DbInitContextManager}.end()
      *
      * @return {@link DbInitContext} 上下文对象
-     * @author hupg
+     * @author DDD
      * @date 2022/5/12 15:51
      */
     public static DbInitContext begin(String dbName) {
@@ -45,7 +45,7 @@ public class DbInitContextManager {
      * 获取当前线程中{@link DbInitContext}
      *
      * @return {@link DbInitContext} 上下文对象
-     * @author hupg
+     * @author DDD
      * @date 2022/5/12 17:42
      */
     public static DbInitContext getContext() {
@@ -55,7 +55,7 @@ public class DbInitContextManager {
     /**
      * 移除当前线程中的 {@link DbInitContext}
      *
-     * @author hupg
+     * @author DDD
      * @date 2022/5/12 17:40
      */
     public static void end() {

@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * 文件操作工具类
  *
- * @author hupg
+ * @author DDD
  * @date 2021
  */
 public class FileUtilOm {
@@ -17,7 +17,7 @@ public class FileUtilOm {
      * 获取根目录 resources 下指定文件夹所有文件
      *
      * @param dir 文件夹名称
-     * @author hupg
+     * @author DDD
      * @date 2022/5/11 10:09
      */
     public static File[] getRootFiles(String dir) {
@@ -31,7 +31,7 @@ public class FileUtilOm {
      *
      * @param path 文件路径
      * @return 文件名列表
-     * @author hupg
+     * @author DDD
      */
     public static List<String> getFileNameByPath(String path) {
         List<String> files = new ArrayList<String>();
@@ -57,7 +57,7 @@ public class FileUtilOm {
      *
      * @param path 文件路径
      * @return 文件列表
-     * @author hupg
+     * @author DDD
      */
     public static File[] loadFilesByPath(String path) {
         File file = new File(path);
@@ -69,7 +69,7 @@ public class FileUtilOm {
      *
      * @param path 文件路径
      * @return 文件对象
-     * @author hupg
+     * @author DDD
      */
     public static File loadFileInfoByFile(String path) {
         return new File(path);
@@ -95,7 +95,7 @@ public class FileUtilOm {
      * @param filePath 文件路径
      * @param fileName 文件名
      * @param fileInfo 文件内容
-     * @author hupg
+     * @author DDD
      */
     public static void saveFile(String filePath, String fileName, String fileInfo) {
         File file = new File(filePath + fileName);

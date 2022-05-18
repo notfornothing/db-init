@@ -1,9 +1,7 @@
 package top.oldmoon.dbinit.actuator;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
-import top.oldmoon.dbinit.config.TidyConfig;
 import top.oldmoon.dbinit.log.entity.DbInitContext;
 import top.oldmoon.dbinit.log.manager.DbInitContextManager;
 import top.oldmoon.file.FileUtilOm;
@@ -22,7 +20,7 @@ import java.util.List;
 /**
  * 数据库初始化配置
  *
- * @author hupg
+ * @author DDD
  * @date `2022/5/9` 13:33
  */
 @Slf4j
@@ -115,6 +113,11 @@ public class DefaultActuator implements DbActuatorInterface {
                 throw e;
             }
         }
+    }
+
+    @Override
+    public void logging(DbInitContext context) {
+
     }
 
     private void updateSql(Connection conn, Statement statement) {

@@ -18,15 +18,14 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 
-//group = 'oldmoon.frame'
-//version = '1.0.1'
+group = 'top.oldmoon'
+version = '1.0.'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
     // 优先从本地依赖库获取依赖，若获取不到，再到后续仓库获取依赖
     mavenLocal()
-    maven { url "http://192.168.7.120:8081/repository/maven-public" }
     maven { url "https://maven.aliyun.com/repository/public" }
     mavenCentral()
 }
@@ -56,7 +55,6 @@ subprojects {
     repositories {
         // 优先从本地依赖库获取依赖，若获取不到，再到后续仓库获取依赖
         mavenLocal()
-//        maven { url "http://192.168.7.120:8081/repository/maven-public" }
         maven { url "https://maven.aliyun.com/repository/public" }
         mavenCentral()
     }

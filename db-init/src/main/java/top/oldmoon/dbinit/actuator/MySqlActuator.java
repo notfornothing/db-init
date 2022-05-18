@@ -5,7 +5,7 @@ import javax.sql.DataSource;
 /**
  * MySQL数据初始化执行器
  *
- * @author hupg
+ * @author DDD
  * @date 2022/5/13 15:38
  */
 public class MySqlActuator extends DefaultActuator {

@@ -8,10 +8,10 @@ import top.oldmoon.annotation.EnableDbInit;
 @SpringBootApplication
 @ComponentScan({"top.oldmoon"})
 @EnableDbInit
-public class DbInitServerApplication {
+public class DbInitTestApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DbInitServerApplication.class, args);
+        SpringApplication.run(DbInitTestApplication.class, args);
     }
 
 }
