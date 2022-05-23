@@ -1,4 +1,4 @@
-rootProject.name = 'dbInit'
+rootProject.name = 'db-init'
 include 'db-init'
 include 'db-test'
 include 'db-init-spring-boot-starter'
