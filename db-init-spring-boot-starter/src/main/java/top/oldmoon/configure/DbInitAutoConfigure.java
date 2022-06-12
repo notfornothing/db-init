@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  * db-init需要注册到Spring的类统一管理
  *
  * @author DDD
- * @date 2022/5/18 16:15
+ * @since 2022/5/18 16:15
  */
 @EnableConfigurationProperties({DbInitConfig.class})
 public class DbInitAutoConfigure {

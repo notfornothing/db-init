@@ -1,9 +1,87 @@
-jar.enabled=true
+jar.enabled = true
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
-version '0.0.1'
+group 'io.github.dingdangdog'
+version '1.0'
 
-group 'top.oldmoon'
-
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+task javadocJar(type: Jar) {
+    from javadoc
+    classifier = 'javadoc'
+}
 dependencies {
-    compile project(":db-init")
+    compile "io.github.dingdangdog:db-init:${version}"
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.name
+            version project.version
+            //若是war包，就写components.web,若是jar包，就写components.java
+            from components.java
+//                artifact shadowJar
+            artifact sourcesJar
+            artifact javadocJar
+            pom {
+                // 构件名称
+                // 区别于artifactId，可以理解为artifactName
+                name = 'db-init-spring-boot-starter'
+                // 构件描述
+                description = 'db-init-spring-boot-starter'
+                // 构件主页
+                url = 'https://github.com/DingDangDog/db-init'
+                // 许可证名称和地址
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://mit-license.org/'
+                    }
+                }
+                // 开发者信息
+                developers {
+                    developer {
+                        name = 'DingDangDog'
+                        email = '1360326757@qq.com'
+                    }
+                }
+                // 版本控制仓库地址
+                scm {
+                    url = 'https://github.com/DingDangDog/db-init'
+                    connection = 'scm:git:https://github.com/DingDangDog/db-init.git'
+                    developerConnection = 'scm:git:https://github.com/DingDangDog/db-init.git'
+                }
+            }
+        }
+    }
+    // 定义发布到哪里
+    repositories {
+        maven {
+            name 'db-init'
+//                url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            url "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                // 这里就是之前在issues.sonatype.org注册的账号
+                username = "${sonatypeUsername}"
+                password = "${sonatypePassword}"
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+javadoc {
+    // <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    // 防止本地打开中文乱码
+//        options.addStringOption("charset", "UTF-8")
+    options.encoding = "UTF-8"
+    failOnError = false
 }
