@@ -9,7 +9,7 @@ import java.util.Objects;
  * 文件操作工具类
  *
  * @author DDD
- * @date 2021
+ * @since 2021
  */
 public class FileUtilOm {
 
@@ -17,8 +17,9 @@ public class FileUtilOm {
      * 获取根目录 resources 下指定文件夹所有文件
      *
      * @param dir 文件夹名称
+     * @return File[] 文件列表
      * @author DDD
-     * @date 2022/5/11 10:09
+     * @since 2022/5/11 10:09
      */
     public static File[] getRootFiles(String dir) {
         String path = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource(dir)).getPath();

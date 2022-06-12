@@ -12,7 +12,7 @@ import javax.sql.DataSource;
  * 数据执行器工厂
  *
  * @author DDD
- * @date 2022/5/13 14:43
+ * @since 2022/5/13 14:43
  */
 public class DbActuatorFactory {
 
@@ -24,7 +24,7 @@ public class DbActuatorFactory {
      * @param dbType     数据源类型
      * @return top.oldmoon.dbinit.actuator.DefaultActuator
      * @author DDD
-     * @date 2022/5/13 15:02
+     * @since 2022/5/13 15:02
      */
     public DefaultActuator createActuator(@NonNull String name, @NonNull DataSource dataSource,
                                           @NonNull String dbType) {

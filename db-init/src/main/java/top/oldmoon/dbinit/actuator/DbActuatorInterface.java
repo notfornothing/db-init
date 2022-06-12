@@ -13,14 +13,14 @@ import java.util.List;
  * 数据库初始化基本接口管理
  *
  * @author DDD
- * @date 2022/5/10 16:24
+ * @since 2022/5/10 16:24
  */
 public interface DbActuatorInterface {
     /**
      * 初始化逻辑入口
      *
      * @author DDD
-     * @date 2022/5/10 16:26
+     * @since 2022/5/10 16:26
      */
     void init();
 
@@ -32,7 +32,7 @@ public interface DbActuatorInterface {
      * @throws IOException  底层方法[getEffectiveSql()]抛出
      * @throws SQLException 数据库相关操作异常时抛出
      * @author DDD
-     * @date 2022/5/11 17:19
+     * @since 2022/5/11 17:19
      */
     void coverBySqlFile(Connection conn, Statement statement) throws IOException, SQLException;
 
@@ -41,10 +41,10 @@ public interface DbActuatorInterface {
      * <p>并返回有效sql集合
      *
      * @param file sql脚本文件对象
-     * @return List<String> 有效的sql集合
+     * @return List 有效的sql集合
      * @throws IOException sql脚本文件读取出错时抛出
      * @author DDD
-     * @date 2022/5/11 17:24
+     * @since 2022/5/11 17:24
      */
     List<String> getEffectiveSql(File file) throws IOException;
 
@@ -56,16 +56,16 @@ public interface DbActuatorInterface {
      * @param statement sql执行器
      * @throws SQLException sql语句执行出错时抛出
      * @author DDD
-     * @date 2022/5/11 17:27
+     * @since 2022/5/11 17:27
      */
     void executeSql(List<String> sqlList, Statement statement) throws SQLException;
 
     /**
      * 记录日志
      *
-     * @param context    日志内容
+     * @param context 日志内容
      * @author DDD
-     * @date 2022/5/18 15:27
+     * @since 2022/5/18 15:27
      */
     void logging(DbInitContext context);
 }

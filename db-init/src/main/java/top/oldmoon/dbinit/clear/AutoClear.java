@@ -14,7 +14,7 @@ import java.util.List;
  * TODO 待验证是否有效，代码没问题，不确定是不是真的销毁且不再占用内存
  *
  * @author DDD
- * @date 2022/5/12 14:19
+ * @since 2022/5/12 14:19
  */
 @Slf4j
 public class AutoClear {
@@ -42,7 +42,7 @@ public class AutoClear {
      *
      * @param beanName bean名称
      * @author DDD
-     * @date 2022/5/12 17:33
+     * @since 2022/5/12 17:33
      */
     public void clearByName(String beanName) {
         AutowireCapableBeanFactory autowireCapableBeanFactory = context.getAutowireCapableBeanFactory();
@@ -61,7 +61,7 @@ public class AutoClear {
      *
      * @param beanNameList bean名称集合
      * @author DDD
-     * @date 2022/5/12 17:33
+     * @since 2022/5/12 17:33
      */
     public void clearAllByName(List<String> beanNameList) {
         for (String beanName : beanNameList) {

@@ -9,8 +9,9 @@ import java.util.List;
 
 /**
  * 快捷配置类
+ *
  * @author DDD
- * @date 2022/5/12 14:07
+ * @since 2022/5/12 14:07
  */
 @ConfigurationProperties(prefix = "db-init")
 @Setter

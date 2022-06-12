@@ -21,7 +21,7 @@ import java.util.List;
  * 数据库初始化配置
  *
  * @author DDD
- * @date `2022/5/9` 13:33
+ * @since `2022/5/9` 13:33
  */
 @Slf4j
 public class DefaultActuator implements DbActuatorInterface {
