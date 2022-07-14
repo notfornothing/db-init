@@ -25,8 +25,8 @@ import java.util.List;
  */
 @Slf4j
 public class DefaultActuator implements DbActuatorInterface {
-    private final String name;
-    private final DataSource dataSource;
+    protected final String name;
+    protected final DataSource dataSource;
 
     public DefaultActuator(@NonNull String name, @NonNull DataSource dataSource) {
         this.name = name;
@@ -44,8 +44,11 @@ public class DefaultActuator implements DbActuatorInterface {
             updateSql(conn, statement);
             // 执行覆盖类sql脚本
             coverBySqlFile(conn, statement);
-        } catch (SQLException | IOException e) {
-            log.error("数据库初始化失败：初始化出错：{}", e.getMessage());
+        } catch (IOException e) {
+            log.error("--------DDD---- Datasource {} Init Connection Exception: {} ----DDD--------", name, e.getMessage());
+            e.printStackTrace();
+        } catch (SQLException e) {
+            log.error("--------DDD---- Datasource {} Init SQL Exception: {} ----DDD--------", name, e.getMessage());
             e.printStackTrace();
         }
     }
@@ -53,7 +56,7 @@ public class DefaultActuator implements DbActuatorInterface {
     @Override
     public void coverBySqlFile(Connection conn, Statement statement) throws IOException, SQLException {
         File[] files = FileUtilOm.getRootFiles(name);
-        log.info("-=-=-=-=-=-=-=-=覆盖数据开始=-=-=-=-=-=-=-=-=-");
+        log.info("--------DDD---- Datasource {} Cover Begin ----DDD--------", name);
         DbInitContext context = DbInitContextManager.getContext();
         context.setFileName(name);
         String fileName = null;
@@ -67,12 +70,12 @@ public class DefaultActuator implements DbActuatorInterface {
                 }
             }
         } catch (SQLException | IOException e) {
-            log.error("-=-=-=-=-=-=-=-=覆盖数据出错：{}文件执行出错！", fileName);
+            log.error("--------DDD---- Datasource {} Cover Error: File {}, Message: {} ----DDD--------", name, fileName, e.getMessage());
             conn.rollback();
             throw e;
         }
         conn.commit();
-        log.info("-=-=-=-=-=-=-=-=覆盖数据结束=-=-=-=-=-=-=-=-=-");
+        log.info("--------DDD---- Datasource {} Cover Success ----DDD--------", name);
     }
 
     @Override
@@ -109,7 +112,7 @@ public class DefaultActuator implements DbActuatorInterface {
             try {
                 statement.execute(sql);
             } catch (SQLException e) {
-                log.error("Sql执行出错：{}", sql);
+                log.error("--------DDD---- Datasource {} SQL Execute Error: Sql: {} Exception: {} ----DDD--------", name, sql, e.getMessage());
                 throw e;
             }
         }

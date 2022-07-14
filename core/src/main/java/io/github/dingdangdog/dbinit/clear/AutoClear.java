@@ -49,10 +49,10 @@ public class AutoClear {
         ConfigurableListableBeanFactory configurableListableBeanFactory = ((ConfigurableApplicationContext) context).getBeanFactory();
         if (autowireCapableBeanFactory.containsBean(beanName)) {
             autowireCapableBeanFactory.destroyBean(beanName);
-            log.info("{} has been destroyed !", beanName);
+            log.info("--------DDD---- {} Has Been Destroyed! ----DDD--------", beanName);
         } else if (configurableListableBeanFactory.containsBean(beanName)) {
             configurableListableBeanFactory.destroyBean(beanName);
-            log.info("{} has been destroyed !", beanName);
+            log.info("--------DDD---- {} Has Been Destroyed! ----DDD--------", beanName);
         }
     }
 

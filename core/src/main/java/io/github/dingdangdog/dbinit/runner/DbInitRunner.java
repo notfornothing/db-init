@@ -44,6 +44,7 @@ public class DbInitRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        log.info("--------DDD----DbInit Runner Begin----DDD--------");
         List<DbBase> dbList = dbInitConfig.getDbList();
         // 校验配置可用性
         if (!checkConfig(dbList)) {
@@ -53,10 +54,9 @@ public class DbInitRunner implements ApplicationRunner {
         Map<String, DbBase> nameForDb = dbList.stream()
                 .filter(dbBase -> StringUtils.isNotEmpty(dbBase.getName()))
                 .collect(Collectors.toMap(DbBase::getName, Function.identity()));
-
+        log.info("--------DDD---- DbInit Datasource: {} ----DDD--------", nameForDb.keySet());
         // 获取spring容器中全部数据源
         Map<String, DataSource> dataSourceMap = context.getBeansOfType(DataSource.class);
-
         DbActuatorFactory factory = new DbActuatorFactory();
         dataSourceMap.forEach((key, dataSource) -> {
             DbBase dbBase = nameForDb.get(key);
@@ -64,15 +64,13 @@ public class DbInitRunner implements ApplicationRunner {
             if (dbBase.getEnable()) {
                 // 开启上下文
                 DbInitContext dbInitContext = DbInitContextManager.begin(key);
-
-                log.info("-=-=-=-=初始化数据库{}开始=-=-=-=-", key);
+                log.info("--------DDD---- DbInit {} Begin ----DDD--------", key);
                 factory.createActuator(key, dataSource, dbBase.getType()).init();
-                log.info("-=-=-=-=初始化数据库{}完成=-=-=-=-", key);
-
                 // 关闭上下文
                 DbInitContextManager.end();
-                // 打印上下文，验证记录情况
-                System.out.println(JSON.toJSONString(dbInitContext));
+                // 输出日志
+                log.info("--------DDD---- DbInit {} Info: {} ----DDD--------", key, JSON.toJSONString(dbInitContext));
+                log.info("--------DDD---- DbInit {} End ----DDD--------", key);
             }
         });
         autoClear.clearAllByName(AutoClear.beanNameList);
@@ -91,7 +89,7 @@ public class DbInitRunner implements ApplicationRunner {
      */
     private boolean checkConfig(List<DbBase> dbBaseList) {
         if (CollectionUtils.isEmpty(dbBaseList)) {
-            log.error("无数据源dbs或dbType配置，初始化停止！");
+            log.error("--------DDD---- Undefined Datasource Config, DbInit End! ----DDD--------");
             return false;
         }
         AtomicBoolean right = new AtomicBoolean(true);
@@ -100,10 +98,10 @@ public class DbInitRunner implements ApplicationRunner {
             String type = dbBase.getType();
             if (StringUtils.isEmpty(type)) {
                 right.set(false);
-                log.error("{}数据源缺少dbType配置，初始化即将停止！", name);
+                log.error("--------DDD---- Datasource {} Missing Config: type, DbInit Will Stop! ----DDD--------", name);
             } else if (!DbInitConfig.supportType.contains(type.toUpperCase())) {
                 right.set(false);
-                log.error("{}数据源的dbType不支持，初始化即将停止！", name);
+                log.error("--------DDD---- Datasource {} type: {} Not Supported, DbInit Will Stop! ----DDD--------", name, type);
             }
         });
         return right.get();

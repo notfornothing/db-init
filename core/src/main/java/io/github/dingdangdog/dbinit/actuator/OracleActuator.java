@@ -32,7 +32,7 @@ public class OracleActuator extends DefaultActuator {
                 if (sql.toUpperCase().contains("DROP") && e.getMessage().contains("ORA-00942")) {
                     continue;
                 }
-                log.error("Sql执行出错：{}", sql);
+                log.error("--------DDD---- Datasource {} SQL Execute Error: Sql: {} Exception: {} ----DDD--------", super.name, sql, e.getMessage());
                 throw e;
             }
         }
