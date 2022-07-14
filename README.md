@@ -38,11 +38,12 @@ db-init:
 
 ## 现有功能
 - 已支持数据库类型：MySQL、Oracle。
-- 已进行初始化日志记录，但目前只使用了``System.out.println()``打印，没有进行存储。
-- 已支持多数据源初始化，``db-test``中测试了三个数据源的情况（两个MySQL，一个Oracle）。
+- 已进行初始化日志记录，使用了Slf4j记录日志，主要分为INFO和ERROR两种级别的日志【2022-07-14】。
+- 已支持多数据源初始化，``run-test``中测试了三个数据源的情况（两个MySQL，一个Oracle）。
+- 已支持初始化时，先创建数据库，目前仅支持`Mysql`类型数据源【2022-07-14】。
 
 ## 未来计划
-1. 增加数据库初始化日志存储功能。
+1. ~~增加数据库初始化日志存储功能。~~ 改为Slf4j记录日志，主要分为INFO和ERROR两种级别的日志。
 2. 增加sql脚本版本管理功能：现版本每次项目启动都会重复执行脚本，未做版本管理，生产环境谨慎使用！
 3. 增加其他数据源初始化功能。
 
@@ -66,4 +67,29 @@ db-init:
 </dependency>
 ```
 
+## 配置示例
+### application.yml
+```yaml
+db-init:
+  db-list:
+    - name: dataSource  # 数据源名称--与spring容器中的对应DataSource实例名保持一致
+      enable: true      # 是否启动对本数据源的初始化
+      type: mysql       # 本数据源的类型
+      create: true      # 是否启动对本数据源创建数据库
+      url: jdbc:mysql://192.168.7.181:3307  # 本数据源地址【不包含库名】--create为true时必填
+      baseName: husoul  # 本数据源要创建的数据库名--create为true时必填
+      username: root    # 本数据源要登录用户名--create为true时必填
+      password: 123456  # 本数据源要登录密码--create为true时必填
+    - name: oldDataSource
+      enable: false
+      type: mysql
+    - name: oracleDataSource
+      enable: false
+      type: Oracle
+```
+
+## 更新记录
+### 2022/07/14
+1. 日志完善。
+2. 增加创建数据库功能，增加相应配置，并实现Mysql数据源创建数据库。
 
