@@ -1,5 +1,6 @@
 package io.github.dingdangdog.dbinit.actuator;
 
+import io.github.dingdangdog.dbinit.config.DbBase;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.sql.DataSource;
@@ -16,8 +17,8 @@ import java.util.List;
 @Slf4j
 public class OracleActuator extends DefaultActuator {
 
-    public OracleActuator(String name, DataSource dataSource) {
-        super(name, dataSource);
+    public OracleActuator(String name, DataSource dataSource, DbBase dbBase) {
+        super(name, dataSource, dbBase);
     }
 
     @Override

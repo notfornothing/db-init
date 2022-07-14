@@ -16,6 +16,7 @@ import java.util.List;
  * @since 2022/5/10 16:24
  */
 public interface DbActuatorInterface {
+
     /**
      * 初始化逻辑入口
      *
@@ -23,6 +24,15 @@ public interface DbActuatorInterface {
      * @since 2022/5/10 16:26
      */
     void init();
+
+    /**
+     * 创建数据库
+     *
+     * @return boolean
+     * @author DDD
+     * @since 2022/7/14 16:01
+     */
+    boolean createDataBase();
 
     /**
      * 覆盖执行sql脚本文件
@@ -59,13 +69,4 @@ public interface DbActuatorInterface {
      * @since 2022/5/11 17:27
      */
     void executeSql(List<String> sqlList, Statement statement) throws SQLException;
-
-    /**
-     * 记录日志
-     *
-     * @param context 日志内容
-     * @author DDD
-     * @since 2022/5/18 15:27
-     */
-    void logging(DbInitContext context);
 }

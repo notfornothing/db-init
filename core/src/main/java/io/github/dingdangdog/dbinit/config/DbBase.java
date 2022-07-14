@@ -13,19 +13,40 @@ import lombok.Setter;
 @Getter
 public class DbBase {
     /**
-     * 数据源名称
+     * 是否初始化：默认为否
+     */
+    private Boolean enable = false;
+    /**
+     * 数据源名称，应为Spring的DataSource实例名：if {@link #enable} = true，必填
      */
     private String name;
     /**
-     * 是否初始化
-     */
-    private Boolean enable;
-    /**
-     * 数据库类型
+     * 数据库类型，Mysql、Oracle：if {@link #enable} = true，必填
      */
     private String type;
     /**
-     * 是否记录日志
+     * 数据库版本：Mysql：5、6、8
      */
-    private Boolean logging;
+    private String version = "default";
+
+    /**
+     * 是否创建数据库：默认为否
+     */
+    private Boolean create = false;
+    /**
+     * 数据库地址：if {@link #create} = true，必填
+     */
+    private String url;
+    /**
+     * 数据库名：if {@link #create} = true，必填
+     */
+    private String baseName;
+    /**
+     * 数据库用户名：if {@link #create} = true，必填
+     */
+    private String username;
+    /**
+     * 数据库用户密码：if {@link #create} = true，必填
+     */
+    private String password;
 }

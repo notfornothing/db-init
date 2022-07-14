@@ -17,6 +17,7 @@ import io.github.dingdangdog.dbinit.log.manager.DbInitContextManager;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -65,11 +66,11 @@ public class DbInitRunner implements ApplicationRunner {
                 // 开启上下文
                 DbInitContext dbInitContext = DbInitContextManager.begin(key);
                 log.info("--------DDD---- DbInit {} Begin ----DDD--------", key);
-                factory.createActuator(key, dataSource, dbBase.getType()).init();
+                factory.createActuator(key, dataSource, dbBase).init();
                 // 关闭上下文
                 DbInitContextManager.end();
                 // 输出日志
-                log.info("--------DDD---- DbInit {} Info: {} ----DDD--------", key, JSON.toJSONString(dbInitContext));
+                log.info("--------DDD---- DbInit {} Info: {} ----DDD--------", key, dbInitContext.toString());
                 log.info("--------DDD---- DbInit {} End ----DDD--------", key);
             }
         });
@@ -97,11 +98,31 @@ public class DbInitRunner implements ApplicationRunner {
             String name = dbBase.getName();
             String type = dbBase.getType();
             if (StringUtils.isEmpty(type)) {
-                right.set(false);
                 log.error("--------DDD---- Datasource {} Missing Config: type, DbInit Will Stop! ----DDD--------", name);
-            } else if (!DbInitConfig.supportType.contains(type.toUpperCase())) {
                 right.set(false);
+            } else if (!DbInitConfig.supportType.contains(type.toUpperCase())) {
                 log.error("--------DDD---- Datasource {} type: {} Not Supported, DbInit Will Stop! ----DDD--------", name, type);
+                right.set(false);
+            }
+            // 校验创建数据库所需参数
+            if (dbBase.getCreate()) {
+                List<String> missingConfig = new ArrayList<>();
+                if (StringUtils.isEmpty(dbBase.getUrl())) {
+                    missingConfig.add("url");
+                }
+                if (StringUtils.isEmpty(dbBase.getBaseName())) {
+                    missingConfig.add("baseName");
+                }
+                if (StringUtils.isEmpty(dbBase.getUsername())) {
+                    missingConfig.add("username");
+                }
+                if (StringUtils.isEmpty(dbBase.getPassword())) {
+                    missingConfig.add("password");
+                }
+                if (!CollectionUtils.isEmpty(missingConfig)) {
+                    log.error("--------DDD---- Datasource {} Missing Config {} ----DDD--------", name, missingConfig);
+                    right.set(false);
+                }
             }
         });
         return right.get();

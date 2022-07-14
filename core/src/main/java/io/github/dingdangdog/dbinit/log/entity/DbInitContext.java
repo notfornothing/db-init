@@ -31,7 +31,7 @@ public class DbInitContext implements Serializable {
     /**
      * sql语句数量
      */
-    private Integer sqlNumber;
+    private Integer sqlQuantity;
     /**
      * 开始时间
      */
@@ -44,4 +44,17 @@ public class DbInitContext implements Serializable {
      * 总时长
      */
     private Long totalTimes;
+
+    @Override
+    public String toString() {
+        return "DbInitContext{" +
+                "id=" + id +
+                ", dbName='" + dbName + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", sqlQuantity=" + sqlQuantity +
+                ", beginTime=" + beginTime +
+                ", endTime=" + endTime +
+                ", totalTimes=" + totalTimes +
+                '}';
+    }
 }

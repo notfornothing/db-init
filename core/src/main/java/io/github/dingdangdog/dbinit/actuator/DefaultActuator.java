@@ -1,5 +1,6 @@
 package io.github.dingdangdog.dbinit.actuator;
 
+import io.github.dingdangdog.dbinit.config.DbBase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import io.github.dingdangdog.dbinit.log.entity.DbInitContext;
@@ -27,22 +28,30 @@ import java.util.List;
 public class DefaultActuator implements DbActuatorInterface {
     protected final String name;
     protected final DataSource dataSource;
+    protected final DbBase dbBase;
 
-    public DefaultActuator(@NonNull String name, @NonNull DataSource dataSource) {
+    public DefaultActuator(@NonNull String name, @NonNull DataSource dataSource, DbBase dbBase) {
         this.name = name;
         this.dataSource = dataSource;
+        this.dbBase = dbBase;
     }
 
     @Override
     public void init() {
+        if (dbBase.getCreate()) {
+            // 创建数据库
+            if (!createDataBase()) {
+                log.error("--------DDD---- Datasource {} Init Error: DataBase Create Exception ----DDD--------", name);
+                return;
+            }
+        }
+
         // 创建 数据库连接 和 sql执行器
         try (Connection conn = dataSource.getConnection();
              Statement statement = conn.createStatement()) {
             // 关闭自动提交
             conn.setAutoCommit(false);
-            // 执行更新类sql
-            updateSql(conn, statement);
-            // 执行覆盖类sql脚本
+            // 执行覆盖sql脚本
             coverBySqlFile(conn, statement);
         } catch (IOException e) {
             log.error("--------DDD---- Datasource {} Init Connection Exception: {} ----DDD--------", name, e.getMessage());
@@ -51,6 +60,11 @@ public class DefaultActuator implements DbActuatorInterface {
             log.error("--------DDD---- Datasource {} Init SQL Exception: {} ----DDD--------", name, e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean createDataBase() {
+        return false;
     }
 
     @Override
@@ -65,7 +79,7 @@ public class DefaultActuator implements DbActuatorInterface {
                 fileName = file.getName();
                 if (fileName.endsWith(".sql")) {
                     List<String> sqlList = getEffectiveSql(file);
-                    context.setSqlNumber(sqlList.size());
+                    context.setSqlQuantity(sqlList.size());
                     executeSql(sqlList, statement);
                 }
             }
@@ -116,13 +130,5 @@ public class DefaultActuator implements DbActuatorInterface {
                 throw e;
             }
         }
-    }
-
-    @Override
-    public void logging(DbInitContext context) {
-
-    }
-
-    private void updateSql(Connection conn, Statement statement) {
     }
 }
