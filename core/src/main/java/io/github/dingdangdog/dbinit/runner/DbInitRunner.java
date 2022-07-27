@@ -1,6 +1,5 @@
 package io.github.dingdangdog.dbinit.runner;
 
-import com.alibaba.fastjson.JSON;
 import io.github.dingdangdog.dbinit.clear.AutoClear;
 import io.github.dingdangdog.dbinit.config.DbBase;
 import lombok.extern.slf4j.Slf4j;

@@ -30,7 +30,7 @@ public class DefaultActuator implements DbActuatorInterface {
     protected final DataSource dataSource;
     protected final DbBase dbBase;
 
-    public DefaultActuator(@NonNull String name, @NonNull DataSource dataSource, DbBase dbBase) {
+    public DefaultActuator(@NonNull String name, @NonNull DataSource dataSource, @NonNull DbBase dbBase) {
         this.name = name;
         this.dataSource = dataSource;
         this.dbBase = dbBase;
