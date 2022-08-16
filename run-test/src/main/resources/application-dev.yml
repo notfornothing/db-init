@@ -1,29 +1,11 @@
 spring:
   datasource:
-    default:
-      type: com.alibaba.druid.pool.DruidDataSource
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://192.168.7.181:33307/husoul?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
-      username: root
-      password: Hlkj@123456
-      druid:
-        validationQuery: "SELECT 1 FROM DUAL"
-        initialSize: 3  # 初始化，最小，最大连接数
     old:
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://127.0.0.1:3306/husoul?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
       username: root
       password: 123456
-      druid:
-        validationQuery: "SELECT 1 FROM DUAL"
-        initialSize: 3  # 初始化，最小，最大连接数
-    oracle:
-      type: com.alibaba.druid.pool.DruidDataSource
-      driver-class-name: oracle.jdbc.OracleDriver
-      url: jdbc:oracle:thin:@192.168.7.181:1521:ORCL
-      username: CJBGD_HL
-      password: hlkj123
       druid:
         validationQuery: "SELECT 1 FROM DUAL"
         initialSize: 3  # 初始化，最小，最大连接数
@@ -34,13 +16,13 @@ db-init:
       enable: true
       type: mysql
       create: true
-      url: jdbc:mysql://192.168.7.181:33307
-      baseName: husoul
-      username: root
-      password: Hlkj@123456
     - name: oldDataSource
       enable: false
       type: mysql
+      url: jdbc:mysql://127.0.0.1:3306
+      baseName: husoul
+      username: root
+      password: 123456
     - name: oracleDataSource
       enable: false
       type: Oracle
