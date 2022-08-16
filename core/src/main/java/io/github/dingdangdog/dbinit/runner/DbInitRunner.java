@@ -61,7 +61,7 @@ public class DbInitRunner implements ApplicationRunner {
         dataSourceMap.forEach((key, dataSource) -> {
             DbBase dbBase = nameForDb.get(key);
             // 判断是否确认开启数据库初始化
-            if (dbBase.getEnable()) {
+            if (dbBase != null && dbBase.getEnable()) {
                 // 开启上下文
                 DbInitContext dbInitContext = DbInitContextManager.begin(key);
                 log.info("--------DDD---- DbInit {} Begin ----DDD--------", key);
