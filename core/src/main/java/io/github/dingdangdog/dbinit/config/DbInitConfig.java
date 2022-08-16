@@ -3,6 +3,7 @@ package io.github.dingdangdog.dbinit.config;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @author DDD
  * @since 2022/5/12 14:07
  */
+@Component("dbInitConfig")
 @ConfigurationProperties(prefix = "db-init")
 @Setter
 @Getter

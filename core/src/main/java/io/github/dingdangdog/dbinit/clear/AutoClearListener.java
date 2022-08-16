@@ -1,9 +1,12 @@
 package io.github.dingdangdog.dbinit.clear;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.ArrayList;
@@ -17,11 +20,11 @@ import java.util.List;
  * @since 2022/5/12 14:19
  */
 @Slf4j
-public class AutoClear {
+public class AutoClearListener implements ApplicationListener {
 
     private final ApplicationContext context;
 
-    public AutoClear(ApplicationContext context) {
+    public AutoClearListener(ApplicationContext context) {
         this.context = context;
     }
 
@@ -32,7 +35,7 @@ public class AutoClear {
 
     static {
         beanNameList = new ArrayList<>();
-        beanNameList.add("tidyConfig");
+        beanNameList.add("dbInitConfig");
         beanNameList.add("dbInitRunner");
         beanNameList.add("autoClear");
     }
@@ -48,10 +51,10 @@ public class AutoClear {
         AutowireCapableBeanFactory autowireCapableBeanFactory = context.getAutowireCapableBeanFactory();
         ConfigurableListableBeanFactory configurableListableBeanFactory = ((ConfigurableApplicationContext) context).getBeanFactory();
         if (autowireCapableBeanFactory.containsBean(beanName)) {
-            autowireCapableBeanFactory.destroyBean(beanName);
+            autowireCapableBeanFactory.destroyBean(context.getBean(beanName));
             log.info("--------DDD---- {} Has Been Destroyed! ----DDD--------", beanName);
         } else if (configurableListableBeanFactory.containsBean(beanName)) {
-            configurableListableBeanFactory.destroyBean(beanName);
+            configurableListableBeanFactory.destroyBean(context.getBean(beanName));
             log.info("--------DDD---- {} Has Been Destroyed! ----DDD--------", beanName);
         }
     }
@@ -67,5 +70,10 @@ public class AutoClear {
         for (String beanName : beanNameList) {
             clearByName(beanName);
         }
+    }
+
+    @Override
+    public void onApplicationEvent(ApplicationEvent event) {
+
     }
 }

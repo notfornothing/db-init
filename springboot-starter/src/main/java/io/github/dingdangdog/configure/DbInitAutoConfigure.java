@@ -1,6 +1,6 @@
 package io.github.dingdangdog.configure;
 
-import io.github.dingdangdog.dbinit.clear.AutoClear;
+import io.github.dingdangdog.dbinit.clear.AutoClearListener;
 import io.github.dingdangdog.dbinit.runner.DbInitRunner;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,16 +24,16 @@ public class DbInitAutoConfigure {
     @Resource
     DbInitConfig dbInitConfig;
 
-    @Bean("autoClear")
+    @Bean("autoClearListener")
     @Primary
-    public AutoClear getAutoClear() {
-        return new AutoClear(context);
+    public AutoClearListener getAutoClear() {
+        return new AutoClearListener(context);
     }
 
     @Bean("dbInitRunner")
     @Primary
-    public DbInitRunner getDbInitRunner(@Qualifier("autoClear") AutoClear autoClear) {
-        return new DbInitRunner(context, autoClear, dbInitConfig);
+    public DbInitRunner getDbInitRunner(@Qualifier("autoClearListener") AutoClearListener autoClearListener) {
+        return new DbInitRunner(context, autoClearListener, dbInitConfig);
     }
 
 }

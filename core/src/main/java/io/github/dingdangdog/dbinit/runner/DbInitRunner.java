@@ -1,6 +1,6 @@
 package io.github.dingdangdog.dbinit.runner;
 
-import io.github.dingdangdog.dbinit.clear.AutoClear;
+import io.github.dingdangdog.dbinit.clear.AutoClearListener;
 import io.github.dingdangdog.dbinit.config.DbBase;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -33,12 +33,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DbInitRunner implements ApplicationRunner {
     private final ApplicationContext context;
-    private final AutoClear autoClear;
+    private final AutoClearListener autoClearListener;
     private final DbInitConfig dbInitConfig;
 
-    public DbInitRunner(ApplicationContext context, AutoClear autoClear, DbInitConfig dbInitConfig) {
+    public DbInitRunner(ApplicationContext context, AutoClearListener autoClearListener, DbInitConfig dbInitConfig) {
         this.context = context;
-        this.autoClear = autoClear;
+        this.autoClearListener = autoClearListener;
         this.dbInitConfig = dbInitConfig;
     }
 
@@ -48,7 +48,7 @@ public class DbInitRunner implements ApplicationRunner {
         List<DbBase> dbList = dbInitConfig.getDbList();
         // 校验配置可用性
         if (!checkConfig(dbList)) {
-            autoClear.clearAllByName(AutoClear.beanNameList);
+            autoClearListener.clearAllByName(AutoClearListener.beanNameList);
             return;
         }
         Map<String, DbBase> nameForDb = dbList.stream()
@@ -73,7 +73,7 @@ public class DbInitRunner implements ApplicationRunner {
                 log.info("--------DDD---- DbInit {} End ----DDD--------", key);
             }
         });
-        autoClear.clearAllByName(AutoClear.beanNameList);
+        autoClearListener.clearAllByName(AutoClearListener.beanNameList);
     }
 
     /**
