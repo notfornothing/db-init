@@ -1,7 +1,7 @@
 
-<p align="center">
-  <h1>DbInit</h1>
-</p>
+<div align="center">
+  <h1> DbInit </h1>
+</div>
 <p align="center">
 	<strong>DbInit 是一款基于Springboot的数据库初始化插件。</strong>
 </p>
