@@ -6,9 +6,10 @@
 	<strong>DbInit 是一款基于Springboot的数据库初始化插件。</strong>
 </p>
 <p align="center">
+  <!-- <img src="https://img.shields.io/github/v/release/mereithhh/van-blog?display_name=tag" /> -->
   <img src="https://img.shields.io/github/stars/DingDangDog/db-init" />
   <img src="https://img.shields.io/bitbucket/issues/DingDangDog/db-init" />
-  <img src="https://github.com/DingDangDog/db-init/workflows/release/badge.svg" />
+  <!-- <img src="https://github.com/DingDangDog/db-init/workflows/release/badge.svg" /> -->
   <img src="https://img.shields.io/badge/license-MIT%20v3-yellow.svg" />
 </p>
 
