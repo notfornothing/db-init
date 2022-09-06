@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/github/stars/DingDangDog/db-init" />
   <img src="https://img.shields.io/bitbucket/issues/DingDangDog/db-init" />
   <!-- <img src="https://github.com/DingDangDog/db-init/workflows/release/badge.svg" /> -->
-  <img src="https://img.shields.io/badge/license-MIT%20v3-yellow.svg" />
+  <img src="https://img.shields.io/badge/license-MIT-yellow.svg" />
 </p>
 
 ## 注意
