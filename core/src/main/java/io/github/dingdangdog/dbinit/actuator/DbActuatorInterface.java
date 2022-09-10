@@ -1,7 +1,5 @@
 package io.github.dingdangdog.dbinit.actuator;
 
-import io.github.dingdangdog.dbinit.log.entity.DbInitContext;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
