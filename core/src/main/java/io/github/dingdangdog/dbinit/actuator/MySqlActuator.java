@@ -2,16 +2,12 @@ package io.github.dingdangdog.dbinit.actuator;
 
 import io.github.dingdangdog.dbinit.config.DbBase;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * MySQL数据初始化执行器

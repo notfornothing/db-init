@@ -1,6 +1,6 @@
 package io.github.dingdangdog.dbinit.runner;
 
-import io.github.dingdangdog.dbinit.clear.AutoClearListener;
+import io.github.dingdangdog.dbinit.clear.AutoClearEventPublisher;
 import io.github.dingdangdog.dbinit.config.DbBase;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -33,47 +33,48 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DbInitRunner implements ApplicationRunner {
     private final ApplicationContext context;
-    private final AutoClearListener autoClearListener;
+    private final AutoClearEventPublisher autoClearEventPublisher;
     private final DbInitConfig dbInitConfig;
 
-    public DbInitRunner(ApplicationContext context, AutoClearListener autoClearListener, DbInitConfig dbInitConfig) {
+    public DbInitRunner(ApplicationContext context, AutoClearEventPublisher autoClearEventPublisher, DbInitConfig dbInitConfig) {
         this.context = context;
-        this.autoClearListener = autoClearListener;
+        this.autoClearEventPublisher = autoClearEventPublisher;
         this.dbInitConfig = dbInitConfig;
     }
 
     @Override
     public void run(ApplicationArguments args) {
-        log.info("--------DDD----DbInit Runner Begin----DDD--------");
+        log.info("--------DDD---- DbInit Runner Begin ----DDD--------");
         List<DbBase> dbList = dbInitConfig.getDbList();
         // 校验配置可用性
-        if (!checkConfig(dbList)) {
-            autoClearListener.clearAllByName(AutoClearListener.beanNameList);
-            return;
+        if (checkConfig(dbList)) {
+            Map<String, DbBase> nameForDb = dbList.stream()
+                    .filter(dbBase -> StringUtils.isNotEmpty(dbBase.getName()))
+                    .collect(Collectors.toMap(DbBase::getName, Function.identity()));
+            log.info("--------DDD---- DbInit Datasource: {} ----DDD--------", nameForDb.keySet());
+            // 获取spring容器中全部数据源
+            Map<String, DataSource> dataSourceMap = context.getBeansOfType(DataSource.class);
+            DbActuatorFactory factory = new DbActuatorFactory();
+            dataSourceMap.forEach((key, dataSource) -> {
+                DbBase dbBase = nameForDb.get(key);
+                // 判断是否确认开启数据库初始化
+                if (dbBase != null && dbBase.getEnable()) {
+                    // 开启上下文
+                    DbInitContext dbInitContext = DbInitContextManager.begin(key);
+                    log.info("--------DDD---- DbInit {} Begin ----DDD--------", key);
+                    factory.createActuator(key, dataSource, dbBase).init();
+                    // 关闭上下文
+                    DbInitContextManager.end();
+                    // 输出日志
+                    log.info("--------DDD---- DbInit {} Info: {} ----DDD--------", key, dbInitContext.toString());
+                    log.info("--------DDD---- DbInit {} End ----DDD--------", key);
+                }
+            });
         }
-        Map<String, DbBase> nameForDb = dbList.stream()
-                .filter(dbBase -> StringUtils.isNotEmpty(dbBase.getName()))
-                .collect(Collectors.toMap(DbBase::getName, Function.identity()));
-        log.info("--------DDD---- DbInit Datasource: {} ----DDD--------", nameForDb.keySet());
-        // 获取spring容器中全部数据源
-        Map<String, DataSource> dataSourceMap = context.getBeansOfType(DataSource.class);
-        DbActuatorFactory factory = new DbActuatorFactory();
-        dataSourceMap.forEach((key, dataSource) -> {
-            DbBase dbBase = nameForDb.get(key);
-            // 判断是否确认开启数据库初始化
-            if (dbBase != null && dbBase.getEnable()) {
-                // 开启上下文
-                DbInitContext dbInitContext = DbInitContextManager.begin(key);
-                log.info("--------DDD---- DbInit {} Begin ----DDD--------", key);
-                factory.createActuator(key, dataSource, dbBase).init();
-                // 关闭上下文
-                DbInitContextManager.end();
-                // 输出日志
-                log.info("--------DDD---- DbInit {} Info: {} ----DDD--------", key, dbInitContext.toString());
-                log.info("--------DDD---- DbInit {} End ----DDD--------", key);
-            }
-        });
-        autoClearListener.clearAllByName(AutoClearListener.beanNameList);
+
+        log.info("--------DDD---- DbInit Runner End ----DDD--------");
+
+        autoClearEventPublisher.publishAutoClearEvent("dbInitConfig", dbInitConfig);
     }
 
     /**

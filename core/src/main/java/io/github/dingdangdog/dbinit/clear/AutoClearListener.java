@@ -1,13 +1,12 @@
 package io.github.dingdangdog.dbinit.clear;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,8 @@ import java.util.List;
  * @since 2022/5/12 14:19
  */
 @Slf4j
-public class AutoClearListener implements ApplicationListener {
+@Component
+public class AutoClearListener implements ApplicationListener<AutoClearEvent> {
 
     private final ApplicationContext context;
 
@@ -28,17 +28,11 @@ public class AutoClearListener implements ApplicationListener {
         this.context = context;
     }
 
-    /**
-     * 需要清理的bean名称集合
-     */
-    public static List<String> beanNameList;
-
-    static {
-        beanNameList = new ArrayList<>();
-        beanNameList.add("dbInitConfig");
-        beanNameList.add("dbInitRunner");
-        beanNameList.add("autoClear");
-    }
+//    static {
+//        beanNameList = new ArrayList<>();
+//        beanNameList.add("dbInitConfig");
+//        beanNameList.add("dbInitRunner");
+//    }
 
     /**
      * 根据传入的bean名称清理Spring容器中的实例
@@ -59,21 +53,10 @@ public class AutoClearListener implements ApplicationListener {
         }
     }
 
-    /**
-     * 根据传入的bean名称集合，全部清理Spring容器中的实例
-     *
-     * @param beanNameList bean名称集合
-     * @author DDD
-     * @since 2022/5/12 17:33
-     */
-    public void clearAllByName(List<String> beanNameList) {
-        for (String beanName : beanNameList) {
-            clearByName(beanName);
-        }
-    }
-
     @Override
-    public void onApplicationEvent(ApplicationEvent event) {
-
+    public void onApplicationEvent(AutoClearEvent event) {
+        String name = event.getName();
+        Object source = event.getSource();
+        this.clearByName(name);
     }
 }
