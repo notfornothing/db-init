@@ -93,6 +93,9 @@ public class DbInitRunner implements ApplicationRunner {
             return false;
         }
         AtomicBoolean right = new AtomicBoolean(true);
+        for (DbBase dbBase : dbBaseList) {
+            log.info("dbBase: {}", dbBase);
+        }
         dbBaseList.forEach(dbBase -> {
             String name = dbBase.getName();
             String type = dbBase.getType();

@@ -27,7 +27,7 @@ public class MysqlDataSourceConfig {
 
     @Primary
     @Bean(name = "dataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.default")
+    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource gfDataSource() {
         return new DruidDataSource();
     }

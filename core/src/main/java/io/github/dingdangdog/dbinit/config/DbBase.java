@@ -2,6 +2,7 @@ package io.github.dingdangdog.dbinit.config;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 数据源基本配置
@@ -11,6 +12,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
+@ToString
 public class DbBase {
     /**
      * 是否初始化：默认为否
