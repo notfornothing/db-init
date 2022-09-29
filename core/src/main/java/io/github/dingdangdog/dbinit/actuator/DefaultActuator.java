@@ -79,7 +79,7 @@ public class DefaultActuator implements DbActuatorInterface {
                 fileName = file.getName();
                 if (fileName.endsWith(".sql")) {
                     List<String> sqlList = getEffectiveSql(file);
-                    context.setSqlQuantity(sqlList.size());
+                    context.setSqlNum(sqlList.size());
                     executeSql(sqlList, statement);
                 }
             }

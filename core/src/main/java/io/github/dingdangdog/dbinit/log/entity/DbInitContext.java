@@ -21,17 +21,33 @@ public class DbInitContext implements Serializable {
      */
     private Long id;
     /**
+     * 是否创建数据库：1是；2否
+     */
+    private Integer createDb;
+    /**
      * 数据库名称
      */
     private String dbName;
     /**
-     * 文件名称
+     * 脚本文件名称
      */
     private String fileName;
     /**
      * sql语句数量
      */
-    private Integer sqlQuantity;
+    private Integer sqlNum;
+    /**
+     * 自动新建表数量
+     */
+    private Integer addTableNum;
+    /**
+     * 覆盖表数量
+     */
+    private Integer overwriteTableNum;
+    /**
+     * 跳过表数量
+     */
+    private Integer skipTableNum;
     /**
      * 开始时间
      */
@@ -49,9 +65,11 @@ public class DbInitContext implements Serializable {
     public String toString() {
         return "DbInitContext{" +
                 "id=" + id +
+                ", createDb=" + createDb +
                 ", dbName='" + dbName + '\'' +
+                ", addTableNum=" + addTableNum +
                 ", fileName='" + fileName + '\'' +
-                ", sqlQuantity=" + sqlQuantity +
+                ", sqlNum=" + sqlNum +
                 ", beginTime=" + beginTime +
                 ", endTime=" + endTime +
                 ", totalTimes=" + totalTimes +
