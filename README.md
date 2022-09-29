@@ -79,7 +79,7 @@ db-init:
 </dependency>
 ```
 
-## 配置示例
+## 自动创建数据库配置示例
 ### application.yml
 ```yaml
 db-init:
@@ -92,12 +92,6 @@ db-init:
       baseName: husoul  # 本数据源要创建的数据库名--create为true时必填
       username: root    # 本数据源要登录用户名--create为true时必填
       password: 123456  # 本数据源要登录密码--create为true时必填
-    - name: oldDataSource
-      enable: false
-      type: mysql
-    - name: oracleDataSource
-      enable: false
-      type: Oracle
 ```
 
 ## 更新记录
