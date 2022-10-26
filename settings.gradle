@@ -1,9 +1,9 @@
 rootProject.name = 'db-init'
 include 'core'
-include 'run-test'
-include 'springboot-starter'
 include 'core-api'
 include 'core-log'
-include 'impl-mysql'
 include 'core-util'
+include 'impl-mysql'
+include 'run-test'
+include 'springboot-starter'
 
