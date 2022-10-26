@@ -6,5 +6,4 @@ include 'core-api'
 include 'core-log'
 include 'impl-mysql'
 include 'core-util'
-include 'core-config'
 
