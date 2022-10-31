@@ -93,5 +93,8 @@ db-init:
 - So, any update depends on my mood.
 - But, I try to update weekly.
 
+## Contributing
+- [DingDangDog](https://github.com/DingDangDog)
+
 ## Acknowledgement
 1. myself 😁
