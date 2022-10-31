@@ -13,6 +13,8 @@
   <img src="https://img.shields.io/badge/license-MIT-yellow.svg" />
 </p>
 
+> 工具尚在开发阶段，不推荐使用，若想学习功能思路，可参考`1.0`版本分支。
+
 ## Application Scenarios
 - 当你想要在Springboot项目启动时，想要自动建表并初始化数据；
 - 当你想要在Springboot项目启动时，想要更新自己的数据库数据；
