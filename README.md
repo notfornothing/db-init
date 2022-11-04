@@ -97,4 +97,6 @@ db-init:
 - [DingDangDog](https://github.com/DingDangDog)
 
 ## Acknowledgement
-1. myself 😁
+### JetBrains
+<a href='https://www.jetbrains.com/community/opensource'><img src='https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png' width='240px'/></a>
+- 非常感谢【[JetBrains](https://www.jetbrains.com/community/opensource)】提供的开发工具免费许可证！
