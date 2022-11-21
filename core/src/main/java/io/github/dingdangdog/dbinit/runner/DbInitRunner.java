@@ -1,7 +1,6 @@
 package io.github.dingdangdog.dbinit.runner;
 
 import io.github.dingdangdog.dbinit.clear.AutoClearEventPublisher;
-import io.github.dingdangdog.dbinit.config.DbBase;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.ApplicationArguments;
@@ -10,7 +9,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.util.CollectionUtils;
 import io.github.dingdangdog.dbinit.actuator.factory.DbActuatorFactory;
-import io.github.dingdangdog.dbinit.config.DbInitConfig;
 import io.github.dingdangdog.dbinit.log.entity.DbInitContext;
 import io.github.dingdangdog.dbinit.log.manager.DbInitContextManager;
 

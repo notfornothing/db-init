@@ -3,9 +3,7 @@ package io.github.dingdangdog.dbinit.actuator.factory;
 import io.github.dingdangdog.dbinit.actuator.DefaultActuator;
 import io.github.dingdangdog.dbinit.actuator.MySqlActuator;
 import io.github.dingdangdog.dbinit.actuator.OracleActuator;
-import io.github.dingdangdog.dbinit.config.DbBase;
 import org.springframework.lang.NonNull;
-import io.github.dingdangdog.dbinit.config.DbInitConfig;
 
 import javax.sql.DataSource;
 

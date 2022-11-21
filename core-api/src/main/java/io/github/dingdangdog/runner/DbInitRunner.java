@@ -21,6 +21,15 @@ public interface DbInitRunner extends ApplicationRunner {
     void init() throws Exception;
 
     /**
+     * 校验配置是否正确
+     *
+     * @return true：配置正确；false：配置错误
+     * @author DingDangDog
+     * @since 2022/10/26 17:20
+     */
+    boolean checkConfig();
+
+    /**
      * runner的run方法默认实现
      *
      * @param args 服务环境
@@ -30,6 +39,8 @@ public interface DbInitRunner extends ApplicationRunner {
      */
     @Override
     default void run(ApplicationArguments args) throws Exception {
-        this.init();
+        if (this.checkConfig()) {
+            this.init();
+        }
     }
 }

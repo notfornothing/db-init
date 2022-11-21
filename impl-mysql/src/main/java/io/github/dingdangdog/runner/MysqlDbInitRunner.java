@@ -42,30 +42,28 @@ public class MysqlDbInitRunner implements DbInitRunner {
         log.info("--------DDD---- DbInit Runner Begin ----DDD--------");
         List<DbBase> dbList = dbInitConfig.getDbList();
         // 校验配置可用性
-        if (checkConfig(dbList)) {
-            Map<String, DbBase> nameForDb = dbList.stream()
-                    .filter(dbBase -> StringUtils.isNotEmpty(dbBase.getName()))
-                    .collect(Collectors.toMap(DbBase::getName, Function.identity()));
-            log.info("--------DDD---- DbInit Datasource: {} ----DDD--------", nameForDb.keySet());
-            // 获取spring容器中全部数据源
-            Map<String, DataSource> dataSourceMap = context.getBeansOfType(DataSource.class);
-            // TODO 限制mysql数据库执行，切一次执行一个，去掉for循环
-            dataSourceMap.forEach((key, dataSource) -> {
-                DbBase dbBase = nameForDb.get(key);
-                // 判断是否确认开启数据库初始化
-                if (dbBase != null && dbBase.getEnable()) {
-                    // 开启上下文
-                    DbInitContext dbInitContext = DbInitContextManager.begin(key);
-                    log.info("--------DDD---- DbInit {} Begin ----DDD--------", key);
-                    new MySqlActuator(key, dataSource, dbBase).init();
-                    // 关闭上下文
-                    DbInitContextManager.end();
-                    // 输出日志
-                    log.info("--------DDD---- DbInit {} Info: {} ----DDD--------", key, dbInitContext.toString());
-                    log.info("--------DDD---- DbInit {} End ----DDD--------", key);
-                }
-            });
-        }
+        Map<String, DbBase> nameForDb = dbList.stream()
+                .filter(dbBase -> StringUtils.isNotEmpty(dbBase.getName()))
+                .collect(Collectors.toMap(DbBase::getName, Function.identity()));
+        log.info("--------DDD---- DbInit Datasource: {} ----DDD--------", nameForDb.keySet());
+        // 获取spring容器中全部数据源
+        Map<String, DataSource> dataSourceMap = context.getBeansOfType(DataSource.class);
+        // TODO 限制mysql数据库执行，且一次执行一个，去掉for循环
+        dataSourceMap.forEach((key, dataSource) -> {
+            DbBase dbBase = nameForDb.get(key);
+            // 判断是否确认开启数据库初始化
+            if (dbBase != null && dbBase.getEnable()) {
+                // 开启上下文
+                DbInitContext dbInitContext = DbInitContextManager.begin(key);
+                log.info("--------DDD---- DbInit {} Begin ----DDD--------", key);
+                new MySqlActuator(key, dataSource, dbBase).init();
+                // 关闭上下文
+                DbInitContextManager.end();
+                // 输出日志
+                log.info("--------DDD---- DbInit {} Info: {} ----DDD--------", key, dbInitContext.toString());
+                log.info("--------DDD---- DbInit {} End ----DDD--------", key);
+            }
+        });
 
         log.info("--------DDD---- DbInit Runner End ----DDD--------");
     }
@@ -82,7 +80,9 @@ public class MysqlDbInitRunner implements DbInitRunner {
      * @author DDD
      * @date 2022/5/13 15:28
      */
-    private boolean checkConfig(List<DbBase> dbBaseList) {
+    @Override
+    public boolean checkConfig() {
+        List<DbBase> dbBaseList = dbInitConfig.getDbList();
         if (CollectionUtils.isEmpty(dbBaseList)) {
             log.error("--------DDD---- Undefined Datasource Config, DbInit End! ----DDD--------");
             return false;
